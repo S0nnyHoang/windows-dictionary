@@ -1,0 +1,51 @@
+# Small seed dictionary so the project builds end-to-end without a StarDict pack.
+# Replace with a full OVDP StarDict pack via `build_dictionary.py --stardict DIR`
+# before shipping. Format: <word><TAB><vi definition>  (| separates senses)
+hello	xin chào | chào hỏi
+world	thế giới | trái đất
+dictionary	từ điển
+book	sách | cuốn sách
+run	chạy | vận hành | điều hành
+running	(hiện tại phân từ của run) đang chạy
+dog	chó
+dogs	(số nhiều của dog) những con chó
+cat	mèo
+computer	máy tính | máy vi tính
+language	ngôn ngữ
+english	tiếng Anh
+vietnamese	tiếng Việt | người Việt Nam
+lookup	tra cứu | tìm kiếm
+word	từ | lời nói
+window	cửa sổ
+mouse	chuột | con chuột
+keyboard	bàn phím
+screen	màn hình
+file	tệp tin | hồ sơ
+folder	thư mục
+good	tốt | hay | giỏi
+morning	buổi sáng
+afternoon	buổi chiều
+evening	buổi tối
+night	đêm | buổi tối
+friend	bạn | bạn bè
+family	gia đình
+school	trường học
+teacher	giáo viên | thầy giáo | cô giáo
+student	học sinh | sinh viên
+home	nhà | quê nhà
+house	nhà | ngôi nhà
+work	làm việc | công việc
+office	văn phòng
+city	thành phố
+country	đất nước | quốc gia
+love	yêu | tình yêu
+happy	vui vẻ | hạnh phúc
+sad	buồn | buồn bã
+time	thời gian
+today	hôm nay
+tomorrow	ngày mai
+yesterday	hôm qua
+thank	cảm ơn
+please	xin | xin vui lòng
+yes	vâng | có
+no	không

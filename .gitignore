@@ -1,0 +1,12 @@
+build/
+out/
+data/dictionary.db
+data/dictionary.LICENSE.txt
+data/viet_en_dictionary.json
+*.user
+*.suo
+.vs/
+.vscode/
+__pycache__/
+*.pyc
+tools/_stardict_cache/

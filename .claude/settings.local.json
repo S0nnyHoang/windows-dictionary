@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -NoProfile -Command 'try { $ProgressPreference='\\\\''SilentlyContinue'\\\\''; Invoke-WebRequest -Uri '\\\\''https://sqlite.org/2024/sqlite-amalgamation-3460000.zip'\\\\'' -OutFile '\\\\''C:/Users/SonHD/Desktop/Dictionary/third_party/sqlite/sqlite.zip'\\\\'' -UseBasicParsing -TimeoutSec 60; Write-Host '\\\\''OK'\\\\'' } catch { Write-Host \\('\\\\''ERR: '\\\\'' + $_.Exception.Message\\) }')",
+      "Bash(powershell -NoProfile -Command \"Expand-Archive -Force sqlite.zip .\")",
+      "Bash(rm sqlite.zip)",
+      "Bash(mv sqlite-amalgamation-3460000/sqlite3.c sqlite3.c)",
+      "Bash(mv sqlite-amalgamation-3460000/sqlite3.h sqlite3.h)",
+      "Bash(mv sqlite-amalgamation-3460000/sqlite3ext.h sqlite3ext.h)",
+      "Bash(rm -rf sqlite-amalgamation-3460000)",
+      "Bash(python tools/build_dictionary.py --output data/dictionary.db)",
+      "Bash(where python:*)",
+      "Bash(where py:*)",
+      "Bash(where python3:*)",
+      "Bash(where cmake:*)",
+      "Bash(where cl:*)",
+      "Bash(where msbuild:*)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\(r'C:/Users/SonHD/Desktop/viet_en_dictionary.json','r',encoding='utf-8'\\)\\); print\\(f'entries: {len\\(d\\)}'\\); print\\(f'sample keys: {list\\(d[0].keys\\(\\)\\)}'\\); has_ex = sum\\(1 for e in d if e.get\\('examples'\\)\\); has_pron = sum\\(1 for e in d if e.get\\('pronunciations'\\)\\); print\\(f'with pronunciations: {has_pron}'\\); print\\(f'with examples: {has_ex}'\\)\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\(r'C:/Users/SonHD/Desktop/viet_en_dictionary.json','r',encoding='utf-8'\\)\\); print\\(f'entries: {len\\(d\\)}'\\); print\\(f'sample keys: {list\\(d[0].keys\\(\\)\\)}'\\); has_ex = sum\\(1 for e in d if e.get\\('examples'\\)\\); has_pron = sum\\(1 for e in d if e.get\\('pronunciations'\\)\\); print\\(f'with pronunciations: {has_pron}'\\); print\\(f'with examples: {has_ex}'\\)\")"
+    ]
+  }
+}
