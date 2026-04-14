@@ -5,11 +5,6 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
-    inputs:
-      version:
-        description: "Version name (e.g. v1.0.0)"
-        required: true
-        default: "v0.0.0-test"
 
 permissions:
   contents: write
@@ -31,7 +26,7 @@ jobs:
         shell: pwsh
         run: |
           if ("${{ github.event_name }}" -eq "workflow_dispatch") {
-            echo "VERSION=${{ github.event.inputs.version }}" >> $env:GITHUB_ENV
+            echo "VERSION=v1.0.${{ github.run_number }}" >> $env:GITHUB_ENV
           } else {
             echo "VERSION=${{ github.ref_name }}" >> $env:GITHUB_ENV
           }
