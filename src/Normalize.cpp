@@ -4,6 +4,7 @@
 #include <winnls.h>
 
 #include <algorithm>
+#include <vector>
 
 namespace normalize {
 

@@ -47,6 +47,11 @@ public:
         }
     }
 
+    friend bool operator==(const ComPtr& p, std::nullptr_t) noexcept { return p.p_ == nullptr; }
+    friend bool operator==(std::nullptr_t, const ComPtr& p) noexcept { return p.p_ == nullptr; }
+    friend bool operator!=(const ComPtr& p, std::nullptr_t) noexcept { return p.p_ != nullptr; }
+    friend bool operator!=(std::nullptr_t, const ComPtr& p) noexcept { return p.p_ != nullptr; }
+
     T* Detach() noexcept {
         T* tmp = p_;
         p_ = nullptr;

@@ -3,8 +3,8 @@
 #include "ComPtr.hpp"
 #include "Hook.hpp"
 
-#include <UIAutomation.h>
 #include <windows.h>
+#include <UIAutomation.h>
 
 class App;
 
