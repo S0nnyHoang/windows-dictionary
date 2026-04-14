@@ -1,0 +1,79 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version name (e.g. v1.0.0)"
+        required: true
+        default: "v0.0.0-test"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build
+        run: |
+          cmake --build build --config Release
+
+      - name: Collect artifacts
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist
+          Copy-Item build\Release\EnViDict.exe dist\
+          if (Test-Path data\dictionary.db) {
+            Copy-Item data\dictionary.db dist\
+          }
+
+      - name: Resolve version
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            echo "VERSION=${{ github.event.inputs.version }}" >> $env:GITHUB_ENV
+          } else {
+            echo "VERSION=${{ github.ref_name }}" >> $env:GITHUB_ENV
+          }
+
+      - name: Create release zip
+        shell: pwsh
+        run: |
+          Compress-Archive -Path dist\* -DestinationPath EnViDict-${{ env.VERSION }}-x64.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: "EnViDict ${{ env.VERSION }}"
+          body: |
+            ## EnViDict ${{ env.VERSION }}
+
+            ### Installation
+            1. Download and extract `EnViDict-${{ env.VERSION }}-x64.zip`
+            2. Place `dictionary.db` next to `EnViDict.exe`
+            3. Double-click `EnViDict.exe` to run
+
+            ### What's included
+            - `EnViDict.exe` — the main application
+            - `dictionary.db` — the English→Vietnamese dictionary database
+          files: EnViDict-${{ env.VERSION }}-x64.zip
+          draft: false
+          prerelease: false
