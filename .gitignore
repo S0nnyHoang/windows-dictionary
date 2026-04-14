@@ -1,6 +1,5 @@
 build/
 out/
-data/dictionary.db
 data/dictionary.LICENSE.txt
 data/viet_en_dictionary.json
 *.user

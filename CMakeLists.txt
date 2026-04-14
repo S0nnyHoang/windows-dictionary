@@ -81,8 +81,13 @@ if(MSVC)
 endif()
 
 # --- Dictionary build target ---
+# dictionary.db is pre-built from viet_en_dictionary.json and committed to
+# the repository. The custom target below only rebuilds it when it is
+# missing entirely (e.g. a fresh checkout that somehow skipped LFS/git-lfs).
+# It does NOT depend on viet_en_dictionary.json so it never clobbers the
+# production database with the 48-entry seed fallback.
 find_package(Python3 COMPONENTS Interpreter QUIET)
-if(Python3_FOUND)
+if(Python3_FOUND AND NOT EXISTS ${CMAKE_SOURCE_DIR}/data/dictionary.db)
     add_custom_command(
         OUTPUT ${CMAKE_SOURCE_DIR}/data/dictionary.db
         COMMAND ${Python3_EXECUTABLE}
@@ -90,8 +95,7 @@ if(Python3_FOUND)
             --output ${CMAKE_SOURCE_DIR}/data/dictionary.db
         DEPENDS
             ${CMAKE_SOURCE_DIR}/tools/build_dictionary.py
-            ${CMAKE_SOURCE_DIR}/data/viet_en_dictionary.json
-        COMMENT "Building dictionary.db from dictionary source"
+        COMMENT "Building fallback dictionary.db from seed entries"
         VERBATIM
     )
     add_custom_target(dictionary_db ALL
