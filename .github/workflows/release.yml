@@ -27,23 +27,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Configure CMake
-        run: |
-          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
-
-      - name: Build
-        run: |
-          cmake --build build --config Release
-
-      - name: Collect artifacts
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force -Path dist
-          Copy-Item build\Release\EnViDict.exe dist\
-          if (Test-Path data\dictionary.db) {
-            Copy-Item data\dictionary.db dist\
-          }
-
       - name: Resolve version
         shell: pwsh
         run: |
@@ -53,10 +36,22 @@ jobs:
             echo "VERSION=${{ github.ref_name }}" >> $env:GITHUB_ENV
           }
 
-      - name: Create release zip
-        shell: pwsh
+      - name: Configure CMake
         run: |
-          Compress-Archive -Path dist\* -DestinationPath EnViDict-${{ env.VERSION }}-x64.zip
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build
+        run: |
+          cmake --build build --config Release
+
+      - name: Build installer
+        shell: pwsh
+        env:
+          APP_VERSION: ${{ env.VERSION }}
+        run: |
+          New-Item -ItemType Directory -Force -Path dist
+          & "C:\Program Files (x86)\NSIS\makensis.exe" installer\EnViDict.nsi
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -67,13 +62,15 @@ jobs:
             ## EnViDict ${{ env.VERSION }}
 
             ### Installation
-            1. Download `EnViDict-${{ env.VERSION }}-x64.zip`
-            2. Extract the zip — `EnViDict.exe` and `dictionary.db` are already together
-            3. Double-click `EnViDict.exe` to run
+            1. Download `EnViDict-${{ env.VERSION }}-Setup.exe`
+            2. Run it — the app installs automatically
+            3. Launch from the Start Menu or Desktop shortcut
 
             ### What's included
-            - `EnViDict.exe` — the main application
-            - `dictionary.db` — English→Vietnamese dictionary (271,584 entries)
-          files: EnViDict-${{ env.VERSION }}-x64.zip
+            - EnViDict.exe — the main application
+            - dictionary.db — English→Vietnamese dictionary (271,584 entries)
+            - Start Menu & Desktop shortcuts
+            - Uninstaller (via Add/Remove Programs)
+          files: dist/EnViDict-${{ env.VERSION }}-Setup.exe
           draft: false
           prerelease: false
