@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+#include <objbase.h>
 #include <UIAutomation.h>
 #include <atomic>
 #include <functional>
