@@ -44,6 +44,9 @@ jobs:
         run: |
           cmake --build build --config Release
 
+      - name: Install NSIS
+        run: choco install nsis --no-progress -y
+
       - name: Build installer
         shell: pwsh
         env:
